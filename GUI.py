@@ -47,23 +47,16 @@ def show_hint_reg():
     else:
         win_reg.withdraw()
 def show_hint_prog_mem():
- #   global win_prog_mem
- #   win_prog_mem = Toplevel()
     if win_prog_mem.state() == 'withdrawn':
         win_prog_mem.deiconify()
     else:
         win_prog_mem.withdraw()
 def show_hint_data_mem():
-  #  global win_data_mem
-   # win_data_mem = Toplevel()
     if win_data_mem.state() == 'withdrawn':
         win_data_mem.deiconify()
     else:
         win_data_mem.withdraw()
 def show_hint_proc():
-  #  global win_proc
-  #  win_proc = Toplevel()
-    print win_proc.state()
     if win_proc.state() == 'withdrawn':
         win_proc.deiconify()
         win_proc.overrideredirect()
@@ -76,7 +69,6 @@ def Run(event=0):
 def Step(event=0):
     simulator.step()
     update_data()
-  #  simulator.print_RAM()
 
 def Assembly(event=0):
     global list_v
@@ -86,18 +78,12 @@ def Assembly(event=0):
     source = assembler.run(source)
     simulator.init_8051()
     simulator.load_hex_to_pm(source)
-   # simulator.print_program_memory()
     update_data()
-    
- #   print "\nDEBUG FILE=GUI.py line 20\n"
- #   for l in source:
- #       print l
 
 def About():
     About = Toplevel(root)
     About.title('О программе')
     About.minsize(320, 80)
-#    About.resizable(width=False, height=False)
     txt = u"Курсовой проект\nТема: Симулятор микроконтроллера семейства 8051\n"
     txt += u"Руководитель: Куликов В.С.\nСтудент группы 3-09-П Константинов И.Э."
     lbl = Label(About, text=txt, justify='left')
@@ -136,22 +122,18 @@ def init_root(root):
     
     hm = Menu(m) #второй пункт меню
     m.add_cascade(label=u"Помощь",menu=hm)
-  #  hm.add_command(label=u"Справка")
     hm.add_command(label=u"О программе", command=About)
     
     text_source = Text(root, width=77, height=27, state=DISABLED)
     text_source.pack(side='left', expand=True , fill="both")
-   # text_source.place(x=120, y=20)
 
     s_sb = Scrollbar(root)
     s_sb.pack(side='right', fill="y")
-   # s_sb.place(x=508, y=20, height=440)
 
     text_source['yscrollcommand'] = s_sb.set
-    text_source.config(state='normal')        # test
+    text_source.config(state='normal')    
     s_sb.configure(command=text_source.yview)
     return text_source
-  #  text_source.config(state='disabled')      # test
 
 # окно дампа памяти программ
 
@@ -180,7 +162,6 @@ def init_win_prog_mem(win_prog_mem):
     win_prog_mem.resizable(width=False, height=False)
     win_prog_mem.withdraw()
     win_prog_mem.protocol("WM_DELETE_WINDOW", on_closing_prog_mem)
- #   win_prog_mem.transient(root)
   
     s_sb = Scrollbar(win_prog_mem)
     s_sb.place(x=398, y=10, height=260)
@@ -235,7 +216,6 @@ def output_POH(list_entry_val):
                 txt = '0' + txt
             list_entry_val[i][j].delete(0, END)
             list_entry_val[i][j].insert(INSERT, txt.upper())
-           # list_entry_val[i][j].config(text=txt)
             list_entry_val[i][j].config(state=DISABLED)
 
 
@@ -304,7 +284,6 @@ def output_proc(list_entry_val, list_entry_flags):
         while len(txt) < len_output:
             txt = '0' + txt
         
-#        print txt
         list_entry_val[i].insert(INSERT, txt.upper())
         list_entry_val[i].config(state=DISABLED)
 
