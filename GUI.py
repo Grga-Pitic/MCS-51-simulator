@@ -64,7 +64,7 @@ def show_hint_proc():
         win_proc.withdraw()
 
 def Run(event=0):
-    print 'sad'
+    print ('sad')
 
 def Step(event=0):
     simulator.step()
@@ -197,13 +197,15 @@ def on_closing_data_mem():
 
 def init_win_data_mem(win_data_mem):
     win_data_mem.title(u'Дамп памяти данных')
-    win_data_mem.minsize(410, 200)
+    win_data_mem.minsize(410, 100)
+    win_data_mem.geometry('410x150+40+60')
     win_data_mem.resizable(width=False, height=False)
     win_data_mem.withdraw()
     win_data_mem.protocol("WM_DELETE_WINDOW", on_closing_data_mem)
+    
 
     text_dump = Text(win_data_mem, width=48, height=8, state=DISABLED)
-    text_dump.place(x=10, y=10)
+    text_dump.place(x=10, y=10, height=130)
     output_data_mem(text_dump)
     return text_dump
 
@@ -279,8 +281,8 @@ def output_proc(list_entry_val, list_entry_flags):
         
         list_entry_val[i].config(state=NORMAL)
         list_entry_val[i].delete(0, END)
+
         txt = hex(reg_data[i])[2:]
-        
         while len(txt) < len_output:
             txt = '0' + txt
         
