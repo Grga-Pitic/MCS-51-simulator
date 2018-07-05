@@ -6,6 +6,7 @@ import preprocessor
 import assembler
 
 root = Tk()
+
 win_reg = Toplevel(root)
 win_prog_mem = Toplevel(root)
 win_data_mem = Toplevel(root)
@@ -64,7 +65,8 @@ def show_hint_proc():
         win_proc.withdraw()
 
 def Run(event=0):
-    print ('sad')
+    simulator.run_8051()
+    update_data()
 
 def Step(event=0):
     simulator.step()
@@ -84,18 +86,24 @@ def About():
     About = Toplevel(root)
     About.title('О программе')
     About.minsize(320, 80)
-    txt = u"Курсовой проект\nТема: Симулятор микроконтроллера семейства 8051\n"
-    txt += u"Руководитель: Куликов В.С.\nСтудент группы 3-09-П Константинов И.Э."
+    txt = u"Дипломный проект\nТема: Разработка программы-симулятора микроконтроллеров MCS-51\n"
+    txt += u"Руководитель: Якуненкова И. А.\nСтудент группы 4-09-П Константинов И.Э."
     lbl = Label(About, text=txt, justify='left')
     lbl.pack()
+
+    x = (About.winfo_screenwidth() - 320) / 2
+    y = (About.winfo_screenheight() - 80) / 2
+    About.wm_geometry("+%d+%d" % (x, y))
 
 def Quit():
     root.destroy()
 
 def init_root(root):
     root.title('Симулятор 8051')
-    root.minsize(637, 480)
+    root.minsize(272, 32)
     root.resizable(width=True, height=True)
+
+    
     
     m = Menu(root) #создается объект Меню на главном окне
     root.config(menu=m) #окно конфигурируется с указанием меню для него
@@ -133,6 +141,7 @@ def init_root(root):
     text_source['yscrollcommand'] = s_sb.set
     text_source.config(state='normal')    
     s_sb.configure(command=text_source.yview)
+    root.eval('tk::PlaceWindow %s center' % root.winfo_pathname(root.winfo_id()))
     return text_source
 
 # окно дампа памяти программ
@@ -172,6 +181,11 @@ def init_win_prog_mem(win_prog_mem):
     s_sb.configure(command=text_dump.yview)
     
     output_prog_mem(text_dump)
+
+    x = (win_prog_mem.winfo_screenwidth() - 430) / 2
+    y = (win_prog_mem.winfo_screenheight() - 280) / 2
+    win_prog_mem.wm_geometry("+%d+%d" % (x, y))
+    
     return text_dump
 
 # окно дампа памяти данных
@@ -207,6 +221,9 @@ def init_win_data_mem(win_data_mem):
     text_dump = Text(win_data_mem, width=48, height=8, state=DISABLED)
     text_dump.place(x=10, y=10, height=130)
     output_data_mem(text_dump)
+    x = (win_data_mem.winfo_screenwidth() - 410) / 2
+    y = (win_data_mem.winfo_screenheight() - 100) / 2
+    win_data_mem.wm_geometry("+%d+%d" % (x, y))
     return text_dump
 
 def output_POH(list_entry_val):
@@ -244,6 +261,11 @@ def init_win_reg(win_reg):
             l.append(etr)
         list_entry_val.append(l)
     output_POH(list_entry_val)
+
+    x = (win_reg.winfo_screenwidth() - 160) / 2
+    y = (win_reg.winfo_screenheight() - 200) / 2
+    win_reg.wm_geometry("+%d+%d" % (x, y))
+    
     return list_entry_val
 
 def get_reg_data():
@@ -343,6 +365,11 @@ def init_win_proc(win_proc):
         etr.grid(row=i+2, column=6, sticky="w")
         list_entry_flags.append(etr)
     output_proc(list_entry_val, list_entry_flags)
+
+    x = (win_proc.winfo_screenwidth() - 160) / 2
+    y = (win_proc.winfo_screenheight() - 200) / 2
+    win_proc.wm_geometry("+%d+%d" % (x, y))
+    
     return list_entry_val, list_entry_flags
 
 def update_data():
@@ -359,11 +386,12 @@ def main():
     simulator.init_8051()
     list_entry = []
     
-    root_text_source = init_root(root)
+    
     prog_mem_text = init_win_prog_mem(win_prog_mem)
     data_mem_text = init_win_data_mem(win_data_mem)
     POH_data_entry_list = init_win_reg(win_reg)
     RS_data_entry_list, flags_entry_list = init_win_proc(win_proc)
+    root_text_source = init_root(root)
     global list_v
     list_v.append(prog_mem_text)
     list_v.append(data_mem_text)
