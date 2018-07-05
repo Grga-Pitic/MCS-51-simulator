@@ -1,5 +1,8 @@
 #coding:utf-8
 
+import Tkinter
+import tkMessageBox
+
 mnemonics = ['MOV', 'MOVC', 'MOVX', 'PUSH', 'POP', 'XCH', 'XCHD', 'ADD', 'NOP',
              'ADDC', 'DA', 'SUBB', 'INC', 'DEC', 'MUL', 'DIV', 'ANL', 'ORL',
              'XRL', 'CLR', 'CPL', 'RL', 'RLC', 'RR', 'RRC', 'SWAP', 'SETB',
@@ -43,7 +46,6 @@ def checking_for_mistakes(line):
     if len(line) == 3:
         if (line[1][0] == '[') ^ (line[1][-1] == ']'): # исключающее или
             return 2
- #   print line, len(line)
     # если во втором операнде только одна скобка
     if len(line) == 3:
         if (line[2][0] == '[') ^ (line[2][-1] == ']'): # исключающее или
@@ -57,8 +59,6 @@ def translate_const():
 
 def run(source):
     source = source.upper().split('\n')
-  #  source = read_source()
-   # print source
     good_source = []
     line_number = 0
     for line in range(len(source)):
@@ -70,13 +70,17 @@ def run(source):
                     print u"Строка №", line_number, u"готово"
                     good_source.append(source[line])
                 elif err == 1:
-                    print u"Строка №", line_number, u"неизвестная команда"
+                    tkMessageBox.showinfo("Ошибка ассемблирования",
+                                          u"Строка №"+str(line_number)+u" неизвестная команда")
                     break
                 elif err == 2:
-                    print u"Строка №", line_number, u"ошибка в первом операнде"
+                    tkMessageBox.showinfo("Ошибка ассемблирования",
+                                          u"Строка №"+line_number+u" ошибка в первом операнде")
+                    print 
                     break
                 elif err == 3:
-                    print u"Строка №", line_number, u"ошибка во втором операнде"
+                    tkMessageBox.showinfo("Ошибка ассемблирования",
+                                          u"Строка №"+line_number+u" ошибка во втором операнде")
                     break
                 line_number += 1
     return good_source
