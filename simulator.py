@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from string import zfill
 
-
 RAM = []
 program_memory = []
 
@@ -10,7 +9,7 @@ B = 0xF0
 PSW = 0xD0
 SP = 0x81
 DPTR = 0x83
-DPH =0x83
+DPH = 0x83
 DPL = 0x82
 P0 = 0x80
 P1 = 0x90
@@ -240,6 +239,11 @@ def step():
     global PC
     global SP
     global POH
+
+    if PC >= 0x1000:
+        return
+
+    
     reg_bank = 0
     if program_memory[PC] == 0x0:               # nop
         inc_cycle()
@@ -1171,9 +1175,6 @@ def step():
         inc_cycle()
         inc_cycle()
 
-        
-        
-   # print u'вообще такой уйни быть не должно, так что делай цикл'
 
 def run_8051():
     while PC < 4096:
@@ -1201,15 +1202,4 @@ def test():
     hex_ = read_hex()
     print hex_
     load_hex_to_pm(hex_)
- #   global RAM
- #   RAM[TH0] = 0xff
-#    print_program_memory()
-  #  run_8051()
-    
-    #reset_8051()
-    
-   # print_program_memory()
- #   print_RAM()
- #   print_SFR()
-#test()
-#print get_bit_address(0x7F)
+
